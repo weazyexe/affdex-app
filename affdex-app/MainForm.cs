@@ -25,7 +25,7 @@ namespace AffdexApp
         public MainForm()
         {
             InitializeComponent();
-            detector = new PhotoDetector(2, FaceDetectorMode.SMALL_FACES);
+            detector = new PhotoDetector(3, FaceDetectorMode.SMALL_FACES);
 
             var classifierPath = @"D:\dev\AffdexSDK\data";
             detector.setClassifierPath(classifierPath);
@@ -43,12 +43,23 @@ namespace AffdexApp
         public void onImageResults(Dictionary<int, Face> faces, Frame frame)
         {
             stopwatch.Stop();
-            var face = faces.First().Value;
-
-            SetResultLabel(face);
-            DrawFeaturePoints(face.FeaturePoints);
-
             Text = AffdexApp + "Done";
+
+            var result = new StringBuilder();
+            result.Append($"Total processing time: {stopwatch.Elapsed.TotalMilliseconds / 1000}s\n\n");
+
+            foreach (var face in faces.Values)
+            {
+                result.Append(GetFaceEmotionsInfo(face));
+                DrawFeaturePoints(face.FeaturePoints);
+            }
+
+            if (faces.Values.Count == 0)
+            {
+                result.Append("Faces not found or image is invalid");
+            }
+
+            ResultTextBox.Lines = result.ToString().Split('\n');
             stopwatch.Reset();
         }
 
@@ -91,7 +102,7 @@ namespace AffdexApp
             }
             catch (AffdexException ex)
             {
-                ResultLabel.Text = $"Affdex error: {ex.Message}";
+                ResultTextBox.Text = $"Affdex error: {ex.Message}";
                 Log("Processing ends with error");
             }
             
@@ -138,13 +149,11 @@ namespace AffdexApp
             LogListView.Items.Add(message);
         }
 
-        private void SetResultLabel(Face face)
+        private string GetFaceEmotionsInfo(Face face)
         {
             var result = new StringBuilder();
 
-            result.Append($"Total processing time: {stopwatch.Elapsed.TotalMilliseconds / 1000}s\n\n");
-
-            result.Append("Emotions:\n");
+            result.Append($"Emotions (face_id={face.Id}):\n");
             result.Append($"Anger: {face.Emotions.Anger}\n");
             result.Append($"Disgust: {face.Emotions.Disgust}\n");
             result.Append($"Fear: {face.Emotions.Fear}\n");
@@ -156,7 +165,7 @@ namespace AffdexApp
             result.Append($"Valence: {face.Emotions.Valence}\n");
             result.Append($"Fear: {face.Emotions.Fear}\n\n");
 
-            ResultLabel.Text = result.ToString();
+            return result.ToString();
         }
 
         private void DrawFeaturePoints(FeaturePoint[] featurePoints)

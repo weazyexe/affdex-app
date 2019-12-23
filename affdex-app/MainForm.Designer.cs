@@ -33,7 +33,7 @@
             this.ProcessButton = new System.Windows.Forms.Button();
             this.LogLabel = new System.Windows.Forms.Label();
             this.LogListView = new System.Windows.Forms.ListBox();
-            this.ResultLabel = new System.Windows.Forms.Label();
+            this.ResultTextBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.ImagePicBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -83,20 +83,22 @@
             this.LogListView.Size = new System.Drawing.Size(201, 95);
             this.LogListView.TabIndex = 5;
             // 
-            // ResultLabel
+            // ResultTextBox
             // 
-            this.ResultLabel.AutoSize = true;
-            this.ResultLabel.Location = new System.Drawing.Point(24, 241);
-            this.ResultLabel.Name = "ResultLabel";
-            this.ResultLabel.Size = new System.Drawing.Size(0, 13);
-            this.ResultLabel.TabIndex = 6;
+            this.ResultTextBox.Location = new System.Drawing.Point(24, 204);
+            this.ResultTextBox.Multiline = true;
+            this.ResultTextBox.Name = "ResultTextBox";
+            this.ResultTextBox.ReadOnly = true;
+            this.ResultTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.ResultTextBox.Size = new System.Drawing.Size(201, 251);
+            this.ResultTextBox.TabIndex = 7;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(698, 467);
-            this.Controls.Add(this.ResultLabel);
+            this.Controls.Add(this.ResultTextBox);
             this.Controls.Add(this.LogListView);
             this.Controls.Add(this.LogLabel);
             this.Controls.Add(this.ProcessButton);
@@ -117,7 +119,7 @@
         private System.Windows.Forms.Button ProcessButton;
         private System.Windows.Forms.Label LogLabel;
         private System.Windows.Forms.ListBox LogListView;
-        private System.Windows.Forms.Label ResultLabel;
+        private System.Windows.Forms.TextBox ResultTextBox;
     }
 }
 
