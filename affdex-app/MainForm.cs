@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Linq;
 using Affdex;
 
 namespace AffdexApp
@@ -29,13 +25,10 @@ namespace AffdexApp
 
             var classifierPath = @"D:\dev\AffdexSDK\data";
             detector.setClassifierPath(classifierPath);
-
-            detector.setDetectAllExpressions(true);
             detector.setDetectAllEmotions(true);
-            detector.setDetectAllEmojis(true);
-            detector.setDetectAllAppearances(true);
 
             detector.setImageListener(this);
+            detector.start();
 
             stopwatch = new Stopwatch();
         }
@@ -92,7 +85,6 @@ namespace AffdexApp
             Text = AffdexApp + "Capturing...";
 
             stopwatch.Start();
-            detector.start();
             Log("Detector started. Processing...");
 
             try
@@ -105,9 +97,6 @@ namespace AffdexApp
                 ResultTextBox.Text = $"Affdex error: {ex.Message}";
                 Log("Processing ends with error");
             }
-            
-            
-            detector.stop();
         }
 
         private Frame ImageToFrame(Image image)
